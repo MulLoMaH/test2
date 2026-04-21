@@ -1,6 +1,9 @@
 package employee
 
-import "time"
+import (
+	dto "records/internal/http/DTO"
+	"time"
+)
 
 type Employee struct {
 	id           int       //уникальный ИД
@@ -21,5 +24,14 @@ func NewEmployee(
 		fullname:     fullname,
 		position:     position,
 		reception_at: time.Now(),
+	}
+}
+
+func (e *Employee) ToDTO() *dto.Output_DTO {
+	return &dto.Output_DTO{
+		ID:           e.id,
+		Fullname:     e.fullname,
+		Position:     e.position,
+		Reception_at: e.reception_at,
 	}
 }
