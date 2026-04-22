@@ -6,14 +6,14 @@ import (
 	"log"
 	"net/http"
 	dto "records/internal/http/DTO"
-	"records/internal/repository"
+	"records/internal/repository/interface_employee"
 )
 
 type Employee_Handlers struct {
-	repo *repository.Employees
+	repo interface_employee.Employee_Repository
 }
 
-func New_Employee_Handlers(repo *repository.Employees) *Employee_Handlers {
+func New_Employee_Handlers(repo interface_employee.Employee_Repository) *Employee_Handlers {
 	return &Employee_Handlers{
 		repo: repo,
 	}
@@ -35,12 +35,14 @@ func HTTP_write_Error(w http.ResponseWriter, err error, statusCode int) {
 func (e *Employee_Handlers) Add_employee(w http.ResponseWriter, r *http.Request) {
 	new_Employee := dto.Input_DTO{}
 
+	ctx := r.Context()
+
 	if err := json.NewDecoder(r.Body).Decode(&new_Employee); err != nil {
 		HTTP_write_Error(w, err, 400)
 		return
 	}
 
-	if err := e.repo.Add_employee(new_Employee.Fullname, new_Employee.Position); err != nil {
+	if err := e.repo.Add_employee(ctx, new_Employee.Fullname, new_Employee.Position); err != nil {
 		HTTP_write_Error(w, err, 500)
 		return
 	}
@@ -56,7 +58,9 @@ func (e *Employee_Handlers) Add_employee(w http.ResponseWriter, r *http.Request)
 }
 
 func (e *Employee_Handlers) GetAll(w http.ResponseWriter, r *http.Request) {
-	allEmployees, err := e.repo.GetAll()
+	ctx := r.Context()
+
+	allEmployees, err := e.repo.GetAll(ctx)
 	if err != nil {
 		HTTP_write_Error(w, err, 500)
 		return
@@ -77,12 +81,14 @@ func (e *Employee_Handlers) GetAll(w http.ResponseWriter, r *http.Request) {
 
 func (e *Employee_Handlers) Delete_Employee(w http.ResponseWriter, r *http.Request) {
 	nameStr := r.URL.Query().Get("name")
+	ctx := r.Context()
+
 	if nameStr == "" {
 		HTTP_write_Error(w, errors.New("QUERY no delete value"), 400)
 		return
 	}
 
-	if err := e.repo.Delete_Employee(nameStr); err != nil {
+	if err := e.repo.Delete_Employee(ctx, nameStr); err != nil {
 		HTTP_write_Error(w, err, 500)
 		return
 	}

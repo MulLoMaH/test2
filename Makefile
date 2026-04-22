@@ -14,5 +14,6 @@ table_down:
 table_fix:
 	migrate -path migrations -database ${CONN_DB} force 1
 
-
+run-http-app:
+	docker run -d -p 8080:8080 first_image:latest
 

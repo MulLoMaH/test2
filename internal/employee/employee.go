@@ -35,3 +35,12 @@ func (e *Employee) ToDTO() *dto.Output_DTO {
 		Reception_at: e.reception_at,
 	}
 }
+
+func NewEmployeeFromDB(id int, fullname, position string, reception_at time.Time) *Employee {
+	return &Employee{
+		id:           id,
+		fullname:     fullname,
+		position:     position,
+		reception_at: reception_at,
+	}
+}
