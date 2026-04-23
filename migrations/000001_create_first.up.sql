@@ -1,0 +1,9 @@
+CREATE TABLE IF NOT EXISTS Employee (
+id SERIAL PRIMARY KEY,
+fullname VARCHAR(100) NOT NULL,
+position_company VARCHAR(100) NOT NULL,
+reception_at TIMESTAMP NOT NULL,
+
+UNIQUE(fullname)
+);
+

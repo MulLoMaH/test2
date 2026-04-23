@@ -23,20 +23,20 @@ func NewPostgresRepo(pool *pgxpool.Pool) *PostgresRepo {
 
 var _ interface_employee.Employee_Repository = (*PostgresRepo)(nil)
 
-func (p *PostgresRepo) Add_employee(ctx context.Context, fullname string, position string) error {
+func (p *PostgresRepo) Add_employee(ctx context.Context, fullname string, position_company string) error {
 	sqlQuery := `
-	INSERT INTO Employee (fullname, position, reception_at)
+	INSERT INTO Employee (fullname, position_company, reception_at)
 	VALUES ($1, $2, $3);
 	`
 
-	_, err := p.pool.Exec(ctx, sqlQuery, fullname, position, time.Now())
+	_, err := p.pool.Exec(ctx, sqlQuery, fullname, position_company, time.Now())
 
 	return err
 }
 
 func (p *PostgresRepo) GetAll(ctx context.Context) (map[string]*employee.Employee, error) {
 	sqlQuery := `
-	SELECT id, fullname, position, reception_at
+	SELECT id, fullname, position_company, reception_at
 	FROM Employee;
 	`
 

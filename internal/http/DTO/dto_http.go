@@ -20,13 +20,13 @@ type Output_DTO struct {
 
 // структура для передачи ошибок
 type Error_DTO struct {
-	Err      error     `json:"error"`
+	Err      string    `json:"error"`
 	Time_Err time.Time `json:"time_Err"`
 }
 
 func (e Error_DTO) NewError(err error) *Error_DTO {
 	return &Error_DTO{
-		Err:      err,
+		Err:      err.Error(),
 		Time_Err: time.Now(),
 	}
 }

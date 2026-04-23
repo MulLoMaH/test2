@@ -17,3 +17,6 @@ table_fix:
 run-http-app:
 	docker run -d -p 8080:8080 first_image:latest
 
+postgres_up:
+	docker run -e POSTGRES_PASSWORD=2906 -p 5432:5432 -v ./out/pgdata:/var/lib/postgresql -d postgres:18-bookworm
+
