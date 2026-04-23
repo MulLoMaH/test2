@@ -10,11 +10,17 @@ import (
 )
 
 func ConnDB(ctx context.Context) (*pgxpool.Pool, error) {
-	dbConn := os.Getenv("CONN_DB")
+	dbConn := os.Getenv("CONN_BD_DOCKER")
 	if dbConn == "" {
 		log.Panicln("no connect string for .env")
 		return nil, errors.New("no connect string for .env")
 	}
+
+	// dbConn := os.Getenv("CONN_DB")
+	// if dbConn == "" {
+	// 	log.Panicln("no connect string for .env")
+	// 	return nil, errors.New("no connect string for .env")
+	// }
 
 	pool, err := pgxpool.New(ctx, dbConn)
 	if err != nil {

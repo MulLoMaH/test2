@@ -32,7 +32,7 @@ services:
       - "8080:8080" # Пробрасываем порт из контейнера на локальную машину
     
     environment:  # Задаем подключение к database 
-      CONN_DB: ${CONN_DB}
+      CONN_BD_DOCKER: ${CONN_BD_DOCKER}
       # Строка подключения к базе данных
       # здесь @postgres:5432 — не localhost, а имя сервиса в Docker-сети!
     
